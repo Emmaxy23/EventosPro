@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Factura</title>
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+    <style>
+        /* Sobrescribir el grid global del form para esta página específica */
+        .form-factura {
+            display: block !important;
+        }
+        .form-factura .form-group {
+            margin-bottom: 15px;
+        }
+        .form-factura h3 {
+            margin: 30px 0 20px 0;
+            color: #bfa8ff;
+            font-size: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        .form-factura .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-factura .grid-3 {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <img src="/img/logo.png" alt="Logo">
+            <h1>Facturas</h1>
+        </div>
+        <nav class="topbar-menu">
+            <a th:href="@{/index}">Inicio</a>
+            <a th:href="@{/clientes}">Clientes</a>
+            <a th:href="@{/eventos}">Eventos</a>
+            <a th:href="@{/facturas}" class="active">Facturas</a>
+            <a th:href="@{/pagos}">Pagos</a>
+            <a th:href="@{/reservas}">Reservas</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <div class="page-header">
+            <h2>Nueva Factura</h2>
+            <a th:href="@{/facturas}" class="btn" style="background: rgba(255,255,255,0.1); color: white;">Volver</a>
+        </div>
+
+        <form th:action="@{/facturas/guardar}" method="post" th:object="${factura}" class="form-factura">
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Código</label>
+                    <input type="text" th:field="*{codigo}" placeholder="Ej. FAC-001" required>
+                </div>
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" th:field="*{cliente}" placeholder="Nombre del Cliente" required>
+                </div>
+            </div>
+
+            <h3>Detalles del Producto</h3>
+
+            <div class="grid-3">
+                <div class="form-group">
+                    <label>Producto</label>
+                    <input type="text" name="producto" placeholder="Descripción del producto" required>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <input type="number" name="cantidad" placeholder="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    <input type="number" step="0.01" name="precio" placeholder="0.00" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Guardar Factura</button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

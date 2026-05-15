@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="/login.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Login</h1>
+
+    <!-- FORMULARIO LOGIN -->
+    <form th:action="@{/login}" method="post">
+
+        <input type="text"
+               name="username"
+               placeholder="Usuario"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Contraseña"
+               required>
+
+        <button type="submit">
+            Ingresar
+        </button>
+
+    </form>
+
+    <!-- MENSAJE ERROR -->
+    <p th:if="${error}"
+       th:text="${error}"
+       style="color:red;">
+    </p>
+
+    <br>
+
+    <!-- REGISTRO -->
+    <a th:href="@{/registro}">
+        Crear cuenta nueva
+    </a>
+
+</div>
+
+</body>
+</html>

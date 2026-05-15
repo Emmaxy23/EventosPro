@@ -1,0 +1,490 @@
+/* =========================
+   RESET
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: #0a0a0f;
+    color: white;
+    min-height: 100vh;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+.topbar {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    background: #11111a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topbar-left img {
+    width: 35px;
+    border-radius: 8px;
+}
+
+.topbar-left h1 {
+    font-size: 20px;
+    color: white;
+    font-weight: 600;
+}
+
+.topbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.topbar-menu a {
+    text-decoration: none;
+    color: #8b8b9e;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: 0.3s;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.topbar-menu a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.topbar-menu .active {
+    background: rgba(123, 92, 255, 0.15);
+    color: #bfa8ff;
+}
+
+.logout-btn {
+    border: 1px solid rgba(255, 80, 80, 0.3) !important;
+    color: #ff7b7b !important;
+    background: transparent !important;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 80, 80, 0.1) !important;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+    width: 95%;
+    max-width: 1300px;
+    margin: 40px auto;
+}
+
+/* HERO SECTION */
+.hero-section {
+    text-align: center;
+    margin: 30px 0 50px;
+}
+
+.hero-section h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.hero-section p {
+    color: #8b8b9e;
+    font-size: 15px;
+}
+
+/* =========================
+   GRID HOME
+========================= */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+    background: #161625;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+}
+
+/* Colored Top Borders */
+.card:nth-child(1)::before { background: #7b5cff; }
+.card:nth-child(2)::before { background: #00c896; }
+.card:nth-child(3)::before { background: #ffaa00; }
+.card:nth-child(4)::before { background: #3b82f6; }
+.card:nth-child(5)::before { background: #ef4444; }
+.card:nth-child(6)::before { background: #6b7280; }
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    margin-top: 10px;
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+}
+
+.card h2 {
+    font-size: 32px;
+    margin: 10px 0 5px;
+}
+
+/* Assign colors to numbers matching border */
+.card:nth-child(1) h2 { color: #bfa8ff; }
+.card:nth-child(2) h2 { color: #4dffd2; }
+.card:nth-child(3) h2 { color: #ffd24d; }
+.card:nth-child(4) h2 { color: #93c5fd; }
+.card:nth-child(5) h2 { color: #ff8d8d; }
+.card:nth-child(6) h2 { color: #d1d5db; }
+
+.card p {
+    color: #8b8b9e;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.card a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 8px;
+    background: rgba(123, 92, 255, 0.1);
+    color: #bfa8ff;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.card a:hover {
+    background: rgba(123, 92, 255, 0.2);
+}
+
+/* =========================
+   FORMULARIOS
+========================= */
+form {
+    background: #161625;
+    padding: 25px 30px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    align-items: end;
+}
+
+form label {
+    display: block;
+    font-size: 11px;
+    color: #8b8b9e;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+input,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    background: #0f0f18;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #7b5cff;
+    box-shadow: 0 0 0 2px rgba(123, 92, 255, 0.2);
+}
+
+/* =========================
+   BOTONES
+========================= */
+button,
+.btn {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    background: #7b5cff;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+button:hover,
+.btn:hover {
+    background: #6a4cee;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 92, 255, 0.3);
+}
+
+/* =========================
+   STATS CARDS (Pagos)
+========================= */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #161625;
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-card h4 {
+    font-size: 12px;
+    color: #8b8b9e;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.stat-card .stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+.stat-card .stat-value.purple { color: #bfa8ff; }
+.stat-card .stat-value.cyan { color: #4dffd2; }
+.stat-card .stat-value.yellow { color: #ffd24d; }
+.stat-card .stat-value.red { color: #ff7b7b; }
+
+.stat-card .stat-sub {
+    font-size: 12px;
+    color: #8b8b9e;
+    margin-top: 8px;
+}
+
+.stat-card .stat-sub.green { color: #4dff9a; }
+
+/* =========================
+   TABLAS
+========================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #161625;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+table thead {
+    background: #1d1d31;
+}
+
+table th {
+    padding: 16px;
+    text-align: left;
+    color: #bfa8ff;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+table td {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    color: #d6d6e7;
+    font-size: 14px;
+}
+
+table tbody tr {
+    transition: 0.3s;
+}
+
+table tbody tr:hover {
+    background: #1d1d2d;
+}
+
+/* =========================
+   LINKS TABLA (Acciones)
+========================= */
+table a {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-right: 6px;
+    transition: 0.3s;
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #d6d6e7;
+}
+
+/* Colores por defecto para mantener compatibilidad */
+table a:nth-child(n) {
+    border-color: rgba(123, 92, 255, 0.4);
+    color: #bfa8ff;
+}
+
+table a:last-child {
+    border-color: rgba(255, 80, 80, 0.4);
+    color: #ff7b7b;
+}
+
+/* Clases específicas para mayor control */
+.btn-edit {
+    border-color: rgba(123, 92, 255, 0.4) !important;
+    color: #bfa8ff !important;
+}
+
+.btn-delete {
+    border-color: rgba(255, 80, 80, 0.4) !important;
+    color: #ff7b7b !important;
+}
+
+.btn-history, .btn-info {
+    border-color: rgba(255, 170, 0, 0.4) !important;
+    color: #ffd24d !important;
+}
+
+.btn-view, .btn-detail {
+    border-color: rgba(0, 200, 150, 0.4) !important;
+    color: #4dffd2 !important;
+}
+
+/* Hovers */
+table a:hover {
+    transform: translateY(-1px);
+}
+
+table a:nth-child(n):hover { background: rgba(123, 92, 255, 0.1); }
+table a:last-child:hover { background: rgba(255, 80, 80, 0.1); }
+
+.btn-edit:hover { background: rgba(123, 92, 255, 0.1) !important; }
+.btn-delete:hover { background: rgba(255, 80, 80, 0.1) !important; }
+.btn-history:hover, .btn-info:hover { background: rgba(255, 170, 0, 0.1) !important; }
+.btn-view:hover, .btn-detail:hover { background: rgba(0, 200, 150, 0.1) !important; }
+
+
+/* =========================
+   BADGES ESTADOS & TIPOS
+========================= */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.aprobado { background: rgba(0, 255, 120, 0.15); color: #4dff9a; }
+.pendiente { background: rgba(255, 200, 0, 0.15); color: #ffd24d; }
+.denegado { background: rgba(255, 80, 80, 0.15); color: #ff7b7b; }
+
+.concierto { background: rgba(123, 92, 255, 0.15); color: #bfa8ff; border: 1px solid rgba(123, 92, 255, 0.3); }
+.festival { background: rgba(255, 170, 0, 0.15); color: #ffd24d; border: 1px solid rgba(255, 170, 0, 0.3); }
+.teatro { background: rgba(0, 200, 150, 0.15); color: #4dffd2; border: 1px solid rgba(0, 200, 150, 0.3); }
+.exposicion { background: rgba(255, 80, 80, 0.15); color: #ff8d8d; border: 1px solid rgba(255, 80, 80, 0.3); }
+
+.pse { background: rgba(0, 255, 180, 0.15); color: #4dffd2; border: 1px solid rgba(0, 255, 180, 0.3); }
+.crédito { background: rgba(123, 92, 255, 0.15); color: #bfa8ff; border: 1px solid rgba(123, 92, 255, 0.3); }
+.efectivo { background: rgba(0, 255, 120, 0.15); color: #4dff9a; border: 1px solid rgba(0, 255, 120, 0.3); }
+.débito { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+/* Dots for state badges */
+.aprobado::before { content: "● "; }
+.pendiente::before { content: "● "; }
+.denegado::before { content: "● "; }
+
+/* Text colors */
+.text-green { color: #4dff9a !important; font-weight: 500; }
+
+/* =========================
+   TITULOS & VARIOS
+========================= */
+h1, h2, h3 {
+    color: white;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.page-header h2 {
+    font-size: 24px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width: 900px) {
+    .topbar {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .topbar-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+    }
+}

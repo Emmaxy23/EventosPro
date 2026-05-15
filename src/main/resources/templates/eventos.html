@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Eventos</title>
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+    <style>
+        .search-container {
+            background: #11111a;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .search-form {
+            display: flex;
+            gap: 15px;
+            background: transparent;
+            padding: 0;
+            border: none;
+            margin: 0;
+            grid-template-columns: none;
+        }
+        .search-form .input-group {
+            flex: 1;
+        }
+        .search-form button {
+            align-self: flex-end;
+            padding: 10px 25px;
+        }
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8b8b9e;
+        }
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <img src="/img/logo.png" alt="Logo">
+            <h1>EventosPro</h1>
+        </div>
+        <nav class="topbar-menu">
+            <a th:href="@{/index}">Inicio</a>
+            <a th:href="@{/clientes}">Clientes</a>
+            <a th:href="@{/eventos}" class="active">Eventos</a>
+            <a th:href="@{/facturas}">Facturas</a>
+            <a th:href="@{/pagos}">Pagos</a>
+            <a th:href="@{/reservas}">Reservas</a>
+            <a th:href="@{/logout}" class="logout-btn">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <div class="page-header">
+            <h2>Gestión de Eventos</h2>
+            <div th:if="${busquedaActiva}" style="color: #bfa8ff; font-size: 14px;">
+                Filtros aplicados. <a th:href="@{/eventos}" style="color: #7b5cff;">Limpiar filtros</a>
+            </div>
+        </div>
+
+        <!-- BARRA DE BÚSQUEDA -->
+        <div class="search-container">
+            <form th:action="@{/eventos}" method="get" class="search-form">
+                <div class="input-group">
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" th:value="${filtrNombre}" placeholder="Buscar por nombre...">
+                </div>
+                <div class="input-group">
+                    <label>Tipo</label>
+                    <select name="tipo">
+                        <option value="">Todos los tipos</option>
+                        <option value="Concierto" th:selected="${filtrTipo == 'Concierto'}">Concierto</option>
+                        <option value="Festival" th:selected="${filtrTipo == 'Festival'}">Festival</option>
+                        <option value="Teatro" th:selected="${filtrTipo == 'Teatro'}">Teatro</option>
+                        <option value="Exposición" th:selected="${filtrTipo == 'Exposición'}">Exposición</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Lugar</label>
+                    <input type="text" name="lugar" th:value="${filtrLugar}" placeholder="Buscar por lugar...">
+                </div>
+                <button type="submit">Buscar</button>
+                <a th:href="@{/eventos}" class="btn btn-reset">Reiniciar</a>
+            </form>
+        </div>
+
+        <!-- FORMULARIO DE REGISTRO/EDICIÓN -->
+        <form th:action="@{/guardar-evento}" method="post" th:object="${evento}">
+
+            <input type="hidden" th:field="*{idEvento}">
+
+            <div class="input-group" style="grid-column: span 2;">
+                <label>NOMBRE DEL EVENTO</label>
+                <input type="text" th:field="*{nombre}" placeholder="Ej: Rock en Medellín 2025" required>
+            </div>
+
+            <div class="input-group">
+                <label>TIPO</label>
+                <select th:field="*{tipo}" required>
+                    <option value="">Seleccione tipo</option>
+                    <option value="Concierto">Concierto</option>
+                    <option value="Festival">Festival</option>
+                    <option value="Teatro">Teatro</option>
+                    <option value="Exposición">Exposición</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>FECHA</label>
+                <input type="date" th:field="*{fecha}" required>
+            </div>
+
+            <div class="input-group">
+                <label>HORA</label>
+                <input type="time" th:field="*{hora}">
+            </div>
+
+            <div class="input-group" style="grid-column: span 2;">
+                <label>LUGAR</label>
+                <input type="text" th:field="*{lugar}" placeholder="Ej: Estadio Atanasio Girardot" required>
+            </div>
+
+            <div class="input-group">
+                <label>PRECIO (COP)</label>
+                <input type="number" step="0.01" th:field="*{precio}" placeholder="0" required>
+            </div>
+
+            <div class="input-group">
+                <label>CUPO DISPONIBLE</label>
+                <input type="number" th:field="*{cupoDisponible}" placeholder="0" required>
+            </div>
+
+            <div class="input-group" style="grid-column: span 2;">
+                <label>ARTISTAS / PONENTES</label>
+                <input type="text" th:field="*{artistas}" placeholder="Ej: Juanes, J Balvin...">
+            </div>
+
+            <div class="input-group" style="grid-column: span 2;">
+                <label>URL IMAGEN PROMOCIONAL</label>
+                <input type="text" th:field="*{imagenUrl}" placeholder="https://ejemplo.com/imagen.jpg">
+            </div>
+
+            <div class="input-group" style="grid-column: span 4;">
+                <label>PROGRAMA DEL EVENTO</label>
+                <textarea th:field="*{programa}" rows="3" style="width: 100%; background: #0f0f18; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; color: white; padding: 12px; font-family: inherit;" placeholder="Describe el itinerario o detalles del programa..."></textarea>
+            </div>
+
+            <div class="input-group" style="grid-column: 1 / -1; max-width: 200px;">
+                <button type="submit">Guardar evento</button>
+            </div>
+
+        </form>
+
+        <!-- TABLA -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>TIPO</th>
+                    <th>FECHA / HORA</th>
+                    <th>LUGAR</th>
+                    <th>PRECIO</th>
+                    <th>CUPO</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="e : ${eventos}">
+                    <td th:text="'#' + ${e.idEvento}"></td>
+                    <td th:text="${e.nombre}"></td>
+                    <td>
+                        <span th:class="'badge ' + ${#strings.toLowerCase(#strings.replace(e.tipo, 'ó', 'o'))}" th:text="${e.tipo}"></span>
+                    </td>
+                    <td>
+                        <div th:text="${e.fecha}"></div>
+                        <div style="font-size: 11px; color: #8b8b9e;" th:text="${e.hora}"></div>
+                    </td>
+                    <td th:text="${e.lugar}"></td>
+                    <td class="text-green" th:text="'$' + ${#numbers.formatDecimal(e.precio, 0, 'COMMA', 0, 'POINT')}"></td>
+                    <td th:text="${e.cupoDisponible}"></td>
+                    <td>
+                        <a th:href="@{/eventos/detalle/{id}(id=${e.idEvento})}" class="btn-view">Ver Detalle</a>
+                        <a th:href="@{/editar-evento/{id}(id=${e.idEvento})}" class="btn-edit">Editar</a>
+                        <a th:href="@{/eliminar-evento/{id}(id=${e.idEvento})}" class="btn-delete"
+                           onclick="return confirm('¿Seguro que deseas eliminar este evento?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

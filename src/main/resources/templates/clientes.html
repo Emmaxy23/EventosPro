@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+    <style>
+        .search-container {
+            background: #11111a;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .search-form {
+            display: flex;
+            gap: 15px;
+            background: transparent;
+            padding: 0;
+            border: none;
+            margin: 0;
+            grid-template-columns: none;
+        }
+        .search-form .input-group {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <img src="/img/logo.png" alt="Logo">
+            <h1>EventosPro</h1>
+        </div>
+        <nav class="topbar-menu">
+            <a th:href="@{/index}">Inicio</a>
+            <a th:href="@{/clientes}" class="active">Clientes</a>
+            <a th:href="@{/eventos}">Eventos</a>
+            <a th:href="@{/facturas}">Facturas</a>
+            <a th:href="@{/pagos}">Pagos</a>
+            <a th:href="@{/reservas}">Reservas</a>
+            <a th:href="@{/logout}" class="logout-btn">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <div class="page-header">
+            <h2>Gestión de Clientes</h2>
+            <div th:if="${busquedaActiva}" style="color: #bfa8ff; font-size: 14px;">
+                Filtros aplicados. <a th:href="@{/clientes}" style="color: #7b5cff;">Limpiar filtros</a>
+            </div>
+        </div>
+
+        <!-- BARRA DE BÚSQUEDA -->
+        <div class="search-container">
+            <form th:action="@{/clientes}" method="get" class="search-form">
+                <div class="input-group">
+                    <label>Nombre / Apellido</label>
+                    <input type="text" name="nombre" th:value="${filtrNombre}" placeholder="Buscar por nombre...">
+                </div>
+                <div class="input-group">
+                    <label>Correo</label>
+                    <input type="text" name="correo" th:value="${filtrCorreo}" placeholder="Buscar por correo...">
+                </div>
+                <button type="submit">Buscar</button>
+                <a th:href="@{/clientes}" class="btn" style="background: rgba(255,255,255,0.05); color: #8b8b9e;">Reiniciar</a>
+            </form>
+        </div>
+
+        <!-- FORMULARIO -->
+        <form th:action="@{/guardar-cliente}" method="post" th:object="${cliente}">
+
+            <input type="hidden" th:field="*{idCliente}">
+
+            <div class="input-group">
+                <label>Nombre</label>
+                <input type="text" th:field="*{nombre}" placeholder="Nombre" required>
+            </div>
+
+            <div class="input-group">
+                <label>Apellido</label>
+                <input type="text" th:field="*{apellido}" placeholder="Apellido" required>
+            </div>
+
+            <div class="input-group">
+                <label>Edad</label>
+                <input type="number" th:field="*{edad}" placeholder="Edad" required>
+            </div>
+
+            <div class="input-group">
+                <label>Correo</label>
+                <input type="email" th:field="*{correo}" placeholder="correo@ejemplo.com" required>
+            </div>
+
+            <div class="input-group">
+                <label>Teléfono</label>
+                <input type="text" th:field="*{telefono}" placeholder="300 000 0000">
+            </div>
+
+            <div class="input-group" style="grid-column: span 2;">
+                <label>Preferencias</label>
+                <input type="text" th:field="*{preferencias}" placeholder="Música rock, eventos al aire libre...">
+            </div>
+
+            <div class="input-group" style="justify-content: flex-end;">
+                <button type="submit">Guardar Cliente</button>
+            </div>
+
+        </form>
+
+        <!-- TABLA -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE COMPLETO</th>
+                    <th>CONTACTO</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${clientes}">
+                    <td th:text="'#' + ${c.idCliente}"></td>
+                    <td>
+                        <div th:text="${c.nombre} + ' ' + ${c.apellido}"></div>
+                        <div style="font-size: 11px; color: #8b8b9e;" th:text="${c.edad} + ' años'"></div>
+                    </td>
+                    <td>
+                        <div th:text="${c.correo}"></div>
+                        <div style="font-size: 11px; color: #8b8b9e;" th:text="${c.telefono}"></div>
+                    </td>
+                    <td>
+                        <a th:href="@{/clientes/historial/{id}(id=${c.idCliente})}" class="btn-history">Historial</a>
+                        <a th:href="@{/editar-cliente/{id}(id=${c.idCliente})}" class="btn-edit">Editar</a>
+                        <a th:href="@{/eliminar-cliente/{id}(id=${c.idCliente})}" class="btn-delete"
+                           onclick="return confirm('¿Seguro que deseas eliminar este cliente?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

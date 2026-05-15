@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Evento</title>
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+    <style>
+        .detail-card {
+            background: #161625;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .detail-header {
+            position: relative;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+        }
+        .detail-header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, #161625, transparent);
+        }
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        .header-content h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .detail-body {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+        .info-section h3 {
+            color: #bfa8ff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .info-section p {
+            line-height: 1.6;
+            color: #d6d6e7;
+            margin-bottom: 30px;
+        }
+        .meta-list {
+            list-style: none;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .meta-icon {
+            font-size: 20px;
+            color: #7b5cff;
+        }
+        .meta-text label {
+            display: block;
+            font-size: 11px;
+            color: #8b8b9e;
+            text-transform: uppercase;
+        }
+        .meta-text span {
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .program-box {
+            background: #0f0f18;
+            padding: 25px;
+            border-radius: 12px;
+            white-space: pre-line;
+            border: 1px solid rgba(123, 92, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <img src="/img/logo.png" alt="Logo">
+            <h1>EventosPro</h1>
+        </div>
+        <nav class="topbar-menu">
+            <a th:href="@{/index}">Inicio</a>
+            <a th:href="@{/clientes}">Clientes</a>
+            <a th:href="@{/eventos}" class="active">Eventos</a>
+            <a th:href="@{/facturas}">Facturas</a>
+            <a th:href="@{/pagos}">Pagos</a>
+            <a th:href="@{/reservas}">Reservas</a>
+            <a th:href="@{/logout}" class="logout-btn">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <div class="page-header">
+            <a th:href="@{/eventos}" class="btn" style="background: rgba(255,255,255,0.05); color: #8b8b9e;">&larr; Volver al listado</a>
+            <a th:href="@{/editar-evento/{id}(id=${evento.idEvento})}" class="btn">Editar Evento</a>
+        </div>
+
+        <div class="detail-card">
+            <div class="detail-header" th:style="'background-image: url(' + ${evento.imagenUrl ?: '/img/default-event.jpg'} + ');'">
+                <div class="header-content">
+                    <span class="badge" th:classappend="${#strings.toLowerCase(evento.tipo)}" th:text="${evento.tipo}">Tipo</span>
+                    <h1 th:text="${evento.nombre}">Nombre del Evento</h1>
+                </div>
+            </div>
+
+            <div class="detail-body">
+                <div class="main-info">
+                    <div class="info-section">
+                        <h3>Descripción</h3>
+                        <p th:text="${evento.descripcion ?: 'Sin descripción disponible.'}">Descripción corta.</p>
+                    </div>
+
+                    <div class="info-section">
+                        <h3>Programa</h3>
+                        <div class="program-box" th:text="${evento.programa ?: 'No hay un itinerario definido.'}">Programa...</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-info">
+                    <div class="info-section">
+                        <h3>Detalles</h3>
+                        <ul class="meta-list">
+                            <li class="meta-item">
+                                <span class="meta-icon">📅</span>
+                                <div class="meta-text">
+                                    <label>Fecha y Hora</label>
+                                    <span th:text="${evento.fecha} + ' - ' + ${evento.hora}">01/01/2025 - 18:00</span>
+                                </div>
+                            </li>
+                            <li class="meta-item">
+                                <span class="meta-icon">📍</span>
+                                <div class="meta-text">
+                                    <label>Lugar</label>
+                                    <span th:text="${evento.lugar}">Ubicación</span>
+                                </div>
+                            </li>
+                            <li class="meta-item">
+                                <span class="meta-icon">🎤</span>
+                                <div class="meta-text">
+                                    <label>Artistas / Ponentes</label>
+                                    <span th:text="${evento.artistas ?: 'Por confirmar'}">Artistas</span>
+                                </div>
+                            </li>
+                            <li class="meta-item">
+                                <span class="meta-icon">💰</span>
+                                <div class="meta-text">
+                                    <label>Precio</label>
+                                    <span class="text-green" th:text="'$' + ${#numbers.formatDecimal(evento.precio, 0, 'COMMA', 0, 'POINT')}">Price</span>
+                                </div>
+                            </li>
+                            <li class="meta-item">
+                                <span class="meta-icon">🎟️</span>
+                                <div class="meta-text">
+                                    <label>Disponibilidad</label>
+                                    <span th:text="${evento.cupoDisponible} + ' cupos restantes'">0 cupos</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

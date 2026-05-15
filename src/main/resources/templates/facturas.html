@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Facturas</title>
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+
+</head>
+<body>
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+            <img src="/img/logo.png" alt="Logo">
+            <h1>Facturas</h1>
+        </div>
+
+        <nav class="topbar-menu">
+            <a th:href="@{/index}">Inicio</a>
+            <a th:href="@{/clientes}">Clientes</a>
+            <a th:href="@{/eventos}">Eventos</a>
+            <a th:href="@{/facturas}" class="active">Facturas</a>
+            <a th:href="@{/pagos}">Pagos</a>
+            <a th:href="@{/reservas}">Reservas</a>
+            <a th:href="@{/logout}" class="logout-btn">Cerrar Sesión</a>
+        </nav>
+
+    </header>
+
+    <div class="container">
+
+        <a th:href="@{/facturas/nueva}" class="btn">
+            + Nueva Factura
+        </a>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>PDF</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr th:each="f : ${facturas}">
+
+                    <td th:text="'#' + ${f.idFactura < 100 ? (f.idFactura < 10 ? '00' + f.idFactura : '0' + f.idFactura) : f.idFactura}"></td>
+
+                    <td>
+                        <span class="badge" style="background: rgba(123, 92, 255, 0.15); color: #bfa8ff; border: 1px solid rgba(123, 92, 255, 0.3);" th:text="${f.codigo}"></span>
+                    </td>
+
+                    <td th:text="${f.cliente}"></td>
+
+                    <td th:text="${f.fecha}"></td>
+
+                    <td class="text-green" th:text="'$' + ${#numbers.formatDecimal(f.total, 0, 'COMMA', 0, 'POINT')}"></td>
+
+                    <td>
+                        <a th:href="@{/facturas/pdf/{id}(id=${f.idFactura})}" class="btn-edit">PDF</a>
+                        <a th:href="@{/facturas/eliminar/{id}(id=${f.idFactura})}" class="btn-delete"
+                           onclick="return confirm('¿Seguro que deseas eliminar esta factura?')">Eliminar</a>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+</html>

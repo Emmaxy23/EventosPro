@@ -1,0 +1,136 @@
+/* =========================
+   RESET
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #1c1c35, #0a0a0f 60%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+/* =========================
+   LOGIN CARD
+========================= */
+.container {
+    width: 100%;
+    max-width: 400px;
+    background: #161625;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* =========================
+   TITULO
+========================= */
+.container h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.container .subtitle {
+    color: #8b8b9e;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/* =========================
+   FORM
+========================= */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+input {
+    width: 100%;
+    padding: 14px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0f0f18;
+    color: white;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #7b5cff;
+    box-shadow: 0 0 0 2px rgba(123, 92, 255, 0.2);
+}
+
+/* =========================
+   BOTON
+========================= */
+button {
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #7b5cff;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 5px;
+}
+
+button:hover {
+    background: #6a4cee;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 92, 255, 0.3);
+}
+
+/* =========================
+   LINKS
+========================= */
+a {
+    text-decoration: none;
+    color: #bfa8ff;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+a:hover {
+    color: white;
+}
+
+.register-link {
+    margin-top: 25px;
+    display: block;
+    color: #8b8b9e;
+    font-size: 13px;
+}
+
+.register-link a {
+    color: #bfa8ff;
+    font-weight: 600;
+}
+
+/* =========================
+   ERROR
+========================= */
+p.error-msg {
+    margin-top: 15px;
+    color: #ff7b7b;
+    font-size: 14px;
+}

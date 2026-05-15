@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Reservas</title>
+        <link rel="stylesheet" th:href="@{/estilos.css}">
+        <link rel="icon" href="/img/logo.png" type="image/x-icon">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <div class="topbar-left">
+                <img src="/img/logo.png" alt="Logo">
+                <h1>EventosPro</h1>
+            </div>
+            <nav class="topbar-menu">
+                <a th:href="@{/index}">Inicio</a>
+                <a th:href="@{/clientes}">Clientes</a>
+                <a th:href="@{/eventos}">Eventos</a>
+                <a th:href="@{/facturas}">Facturas</a>
+                <a th:href="@{/pagos}">Pagos</a>
+                <a th:href="@{/reservas}" class="active">Reservas</a>
+                <a th:href="@{/logout}" class="logout-btn">Cerrar Sesión</a>
+            </nav>
+        </header>
+
+        <div class="container">
+
+            <div class="page-header">
+                <h2>Reservas</h2>
+                <button type="button" class="btn" style="padding: 10px 18px;">+ Nueva reserva</button>
+            </div>
+
+            <!-- FORMULARIO -->
+            <form th:action="@{/guardar-reserva}" method="post" th:object="${reserva}">
+                
+                <input type="hidden" th:field="*{idReserva}">
+
+                <div class="input-group">
+                    <label>ENTRADAS</label>
+                    <input type="number" th:field="*{cantidadEntradas}" placeholder="1" required>
+                </div>
+
+                <div class="input-group">
+                    <label>ESTADO</label>
+                    <select th:field="*{estado}" required>
+                        <option value="">Seleccione estado</option>
+                        <option value="Aprobado">Aprobado</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Denegado">Denegado</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>FECHA RESERVA</label>
+                    <input type="date" th:field="*{fechaReserva}">
+                </div>
+
+                <div class="input-group">
+                    <label>CLIENTE</label>
+                    <select th:field="*{cliente.idCliente}" required>
+                        <option value="">Seleccione cliente</option>
+                        <option th:each="c : ${clientes}" th:value="${c.idCliente}" th:text="${c.nombre}"></option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>EVENTO</label>
+                    <select th:field="*{evento.idEvento}" required>
+                        <option value="">Seleccione evento</option>
+                        <option th:each="e : ${eventos}" th:value="${e.idEvento}" th:text="${e.nombre}"></option>
+                    </select>
+                </div>
+
+                <div class="input-group" style="grid-column: 1 / -1; max-width: 200px;">
+                    <button type="submit">Guardar reserva</button>
+                </div>
+
+            </form>
+
+            <!-- TABLA -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>CLIENTE</th>
+                        <th>EVENTO</th>
+                        <th>ENTRADAS</th>
+                        <th>FECHA</th>
+                        <th>ESTADO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="r : ${reservas}">
+                        <td th:text="'#' + ${r.idReserva}"></td>
+                        <td th:text="${r.cliente.nombre}"></td>
+                        <td th:text="${r.evento.nombre}"></td>
+                        <td th:text="${r.cantidadEntradas}"></td>
+                        <td th:text="${r.fechaReserva}"></td>
+                        <td>
+                            <span th:class="'badge ' + ${#strings.toLowerCase(r.estado)}" th:text="${r.estado}"></span>
+                        </td>
+                        <td>
+                            <a th:href="@{/editar-reserva/{id}(id=${r.idReserva})}" class="btn-edit">Editar</a>
+                            <a th:href="@{/eliminar-reserva/{id}(id=${r.idReserva})}" class="btn-delete">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </body>
+</html>

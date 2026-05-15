@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- Definición del espacio de nombres de Thymeleaf (th) -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>EventosPro - Dashboard</title>
+    <!-- Enlace a los estilos globales -->
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+</head>
+<body>
+
+    <!-- CABECERA PRINCIPAL (TOPBAR) -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <img src="/img/logo.png" alt="Logo">
+            <h1>EventosPro</h1>
+        </div>
+        <!-- Menú de Navegación -->
+        <nav class="topbar-menu">
+            <a th:href="@{/index}" class="active">Inicio</a>
+            <a th:href="@{/clientes}">Clientes</a>
+            <a th:href="@{/eventos}">Eventos</a>
+            <a th:href="@{/facturas}">Facturas</a>
+            <a th:href="@{/pagos}">Pagos</a>
+            <a th:href="@{/reservas}">Reservas</a>
+            <!-- th:href="@{/logout}" genera el enlace correcto de salida -->
+            <a th:href="@{/logout}" class="logout-btn">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- Sección de Bienvenida -->
+        <div class="hero-section">
+            <h2>Panel de Administración</h2>
+            <p>Monitorea y gestiona todos tus eventos y clientes en tiempo real.</p>
+        </div>
+
+        <!-- REJILLA DE ESTADÍSTICAS (KPIs) -->
+        <!-- Cada tarjeta muestra un dato dinámico traído desde el AdminControlador -->
+        <div class="grid">
+            
+            <!-- Tarjeta Clientes -->
+            <div class="card">
+                <h3>Clientes</h3>
+                <!-- th:text inyecta el valor numérico en el h2 -->
+                <h2 th:text="${totalClientes}">0</h2>
+                <p>usuarios registrados en la plataforma</p>
+                <a th:href="@{/clientes}">Ver listado</a>
+            </div>
+
+            <!-- Tarjeta Eventos -->
+            <div class="card">
+                <h3>Eventos</h3>
+                <h2 th:text="${totalEventos}">0</h2>
+                <p>espectáculos y ponencias activas</p>
+                <a th:href="@{/eventos}">Gestionar</a>
+            </div>
+
+            <!-- Tarjeta Reservas -->
+            <div class="card">
+                <h3>Reservas</h3>
+                <h2 th:text="${totalReservas}">0</h2>
+                <p>cupos agendados actualmente</p>
+                <a th:href="@{/reservas}">Ver agenda</a>
+            </div>
+
+            <!-- Tarjeta Pagos (Recaudación) -->
+            <div class="card">
+                <h3>Recaudación</h3>
+                <h2 th:text="${totalPagosFormateado}">$0</h2>
+                <p>ingresos totales procesados</p>
+                <a th:href="@{/pagos}">Ver caja</a>
+            </div>
+
+            <!-- Tarjeta Facturas -->
+            <div class="card">
+                <h3>Facturas</h3>
+                <h2 th:text="${totalFacturas}">0</h2>
+                <p>comprobantes PDF generados</p>
+                <a th:href="@{/facturas}">Ver archivo</a>
+            </div>
+
+            <!-- Tarjeta Administradores (Configuración) -->
+            <div class="card">
+                <h3>Personal</h3>
+                <h2 th:text="${totalAdmins}">0</h2>
+                <p>usuarios con acceso administrativo</p>
+                <!-- Solo visible si el usuario tiene privilegios de Admin Principal -->
+                <a th:href="@{/admins}" th:if="${session.adminPrincipal}">Ajustes</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Administradores</title>
+
+        <link rel="stylesheet" href="/estilos.css">
+        <link rel="icon" href="/img/logo.png" type="image/x-icon">
+    </head>
+    <body>
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <img src="/img/logo.png" alt="Logo">
+
+                <h1>Administradores</h1>
+
+            </div>
+
+            <nav class="topbar-menu">
+
+                <a th:href="@{/index}">
+                    Inicio
+                </a>
+
+                <a th:href="@{/admins}" class="active">
+                    Usuarios
+                </a>
+
+                <a th:href="@{/logout}" class="logout-btn">
+                    Cerrar Sesión
+                </a>
+
+            </nav>
+
+        </header>
+
+        <!-- CONTENIDO -->
+        <div class="container" style="max-width: 1100px;">
+
+            <!-- FORMULARIO -->
+
+            <form th:action="@{/guardar-admin}"
+                  method="post"
+                  th:object="${admin}"
+                  class="form-admin">
+
+                <input type="hidden"
+                       th:field="*{idAdmin}">
+
+                <input type="text"
+                       th:field="*{username}"
+                       placeholder="Usuario"
+                       required>
+
+                <input type="password"
+                       th:field="*{password}"
+                       placeholder="Contraseña"
+                       required>
+
+                <button type="submit">
+                    Guardar
+                </button>
+
+            </form>
+
+            <!-- TABLA -->
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="a : ${admins}">
+
+                        <td th:text="${a.idAdmin}"></td>
+
+                        <td class="text-green" th:text="${a.username}"></td>
+
+                        <td class="text-green" th:text="${a.password}"></td>
+
+                        <td>
+
+                            <a th:href="@{/editar-admin/{id}(id=${a.idAdmin})}">
+                                Editar
+                            </a>
+
+                            <a th:href="@{/eliminar-admin/{id}(id=${a.idAdmin})}">
+                                Eliminar
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </body>
+</html>

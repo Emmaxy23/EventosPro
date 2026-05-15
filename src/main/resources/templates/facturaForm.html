@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Factura</title>
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+</head>
+<body>
+
+<header>
+    <h1>Crear Factura</h1>
+</header>
+
+<div class="container">
+
+    <form th:action="@{/facturas/guardar}" method="post" th:object="${factura}">
+        
+        <input type="text" th:field="*{codigo}" placeholder="Código" required>
+        <input type="text" th:field="*{cliente}" placeholder="Cliente" required>
+
+        <h3>Items</h3>
+
+        <table id="tablaItems">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input name="producto" required></td>
+                    <td><input type="number" name="cantidad" required></td>
+                    <td><input type="number" step="0.01" name="precio" required></td>
+                    <td><button type="button" onclick="eliminarFila(this)">X</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="button" onclick="agregarFila()">+ Agregar Item</button>
+        <br><br>
+        <button type="submit">Guardar Factura</button>
+
+    </form>
+
+</div>
+
+<script>
+function agregarFila() {
+    let tabla = document.getElementById("tablaItems").getElementsByTagName('tbody')[0];
+    let fila = tabla.insertRow();
+
+    fila.innerHTML = `
+        <td><input name="producto" required></td>
+        <td><input type="number" name="cantidad" required></td>
+        <td><input type="number" step="0.01" name="precio" required></td>
+        <td><button type="button" onclick="eliminarFila(this)">X</button></td>
+    `;
+}
+
+function eliminarFila(btn) {
+    let fila = btn.parentNode.parentNode;
+    fila.remove();
+}
+</script>
+
+</body>
+</html>

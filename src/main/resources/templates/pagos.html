@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pagos</title>
+        <link rel="stylesheet" th:href="@{/estilos.css}">
+        <link rel="icon" href="/img/logo.png" type="image/x-icon">
+    </head>
+    <body>
+
+        <header class="topbar">
+            <div class="topbar-left">
+                <img src="/img/logo.png" alt="Logo">
+                <h1>EventosPro</h1>
+            </div>
+            <nav class="topbar-menu">
+                <a th:href="@{/index}">Inicio</a>
+                <a th:href="@{/clientes}">Clientes</a>
+                <a th:href="@{/eventos}">Eventos</a>
+                <a th:href="@{/facturas}">Facturas</a>
+                <a th:href="@{/pagos}" class="active">Pagos</a>
+                <a th:href="@{/reservas}">Reservas</a>
+                <a th:href="@{/logout}" class="logout-btn">Cerrar Sesión</a>
+            </nav>
+        </header>
+
+        <div class="container">
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>TOTAL RECAUDADO</h4>
+                    <div class="stat-value purple" th:text="${totalRecaudado}">$0</div>
+                    <div class="stat-sub">suma de todos los pagos</div>
+                </div>
+                <div class="stat-card">
+                    <h4>TOTAL PAGOS</h4>
+                    <div class="stat-value cyan" th:text="${totalPagos}">0</div>
+                    <div class="stat-sub">registros en la tabla</div>
+                </div>
+                <div class="stat-card">
+                    <h4>MÉTODO PRINCIPAL</h4>
+                    <div class="stat-value yellow" th:text="${metodoTop}">N/A</div>
+                    <div class="stat-sub" th:text="${metodoTopPct} + ' del total'">0% del total</div>
+                </div>
+                <div class="stat-card">
+                    <h4>MÉTODOS DISTINTOS</h4>
+                    <div class="stat-value green" th:text="${#lists.size(pagos) > 0 ? #sets.size(pagos.![metodoPago]) : 0}">0</div>
+                    <div class="stat-sub">tipos de pago usados</div>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <h2>Registro de Pagos</h2>
+            </div>
+
+            <!-- FORMULARIO -->
+            <form th:action="@{/pagos/guardar}"
+                  method="post"
+                  th:object="${pago}">
+
+                <input type="hidden" th:field="*{idPago}">
+
+                <div class="input-group">
+                    <label>MONTO (COP)</label>
+                    <input type="number" step="0.01" th:field="*{monto}" placeholder="0" required>
+                </div>
+
+                <div class="input-group">
+                    <label>MÉTODO</label>
+                    <select th:field="*{metodoPago}" required>
+                        <option value="">Seleccione método</option>
+                        <option value="PSE">PSE</option>
+                        <option value="Débito">Débito</option>
+                        <option value="Crédito">Crédito</option>
+                        <option value="Efectivo">Efectivo</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>FECHA DE PAGO</label>
+                    <input type="date" th:field="*{fechaPago}" required>
+                </div>
+
+                <div class="input-group">
+                    <label>ENTRADAS</label>
+                    <input type="number" th:field="*{cantidadEntradas}" placeholder="0" required>
+                </div>
+
+                <div class="input-group">
+                    <label>CLIENTE</label>
+                    <select th:field="*{cliente.idCliente}" required>
+                        <option value="">Seleccione Cliente</option>
+                        <option th:each="c : ${clientes}" th:value="${c.idCliente}" th:text="${c.nombre}"></option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>EVENTO</label>
+                    <select th:field="*{evento.idEvento}" required>
+                        <option value="">Seleccione Evento</option>
+                        <option th:each="e : ${eventos}" th:value="${e.idEvento}" th:text="${e.nombre}"></option>
+                    </select>
+                </div>
+
+                <div class="input-group" style="justify-content: flex-end;">
+                    <button type="submit">Guardar pago</button>
+                </div>
+
+            </form>
+
+            <!-- TABLA -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>CLIENTE</th>
+                        <th>EVENTO</th>
+                        <th>FECHA</th>
+                        <th>ENTRADAS</th>
+                        <th>MONTO</th>
+                        <th>MÉTODO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p : ${pagos}">
+                        <td th:text="'#P' + ${p.idPago < 10 ? '0' + p.idPago : p.idPago}"></td>
+                        <td th:text="${p.cliente.nombre}"></td>
+                        <td th:text="${p.evento.nombre}"></td>
+                        <td th:text="${p.fechaPago}"></td>
+                        <td th:text="${p.cantidadEntradas}"></td>
+                        <td class="text-green" th:text="'$' + ${#numbers.formatDecimal(p.monto, 0, 'COMMA', 0, 'POINT')}"></td>
+                        <td>
+                            <span th:class="'badge ' + ${#strings.toLowerCase(p.metodoPago)}" th:text="${p.metodoPago}"></span>
+                        </td>
+                        <td>
+                            <a th:href="@{/pagos/editar/{id}(id=${p.idPago})}" class="btn-edit">Editar</a>
+                            <a th:href="@{/pagos/eliminar/{id}(id=${p.idPago})}" class="btn-delete">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </body>
+</html>

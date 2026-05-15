@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial del Cliente</title>
+    <link rel="stylesheet" href="/estilos.css">
+    <link rel="icon" href="/img/logo.png" type="image/x-icon">
+    <style>
+        .profile-card {
+            background: #161625;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .profile-icon {
+            width: 80px;
+            height: 80px;
+            background: #7b5cff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+        }
+        .profile-info h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .profile-info p {
+            color: #8b8b9e;
+            font-size: 14px;
+        }
+        .pref-tag {
+            background: rgba(123, 92, 255, 0.1);
+            color: #bfa8ff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <img src="/img/logo.png" alt="Logo">
+            <h1>EventosPro</h1>
+        </div>
+        <nav class="topbar-menu">
+            <a th:href="@{/index}">Inicio</a>
+            <a th:href="@{/clientes}" class="active">Clientes</a>
+            <a th:href="@{/eventos}">Eventos</a>
+            <a th:href="@{/facturas}">Facturas</a>
+            <a th:href="@{/pagos}">Pagos</a>
+            <a th:href="@{/reservas}">Reservas</a>
+            <a th:href="@{/logout}" class="logout-btn">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <div class="page-header">
+            <a th:href="@{/clientes}" class="btn" style="background: rgba(255,255,255,0.05); color: #8b8b9e;">&larr; Volver al listado</a>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-icon">👥</div>
+            <div class="profile-info">
+                <h1 th:text="${cliente.nombre} + ' ' + ${cliente.apellido}">Nombre Completo</h1>
+                <p th:text="${cliente.correo} + ' | ' + ${cliente.telefono}">correo@ejemplo.com | Teléfono</p>
+                <div class="pref-tag" th:if="${cliente.preferencias}" th:text="'Preferencias: ' + ${cliente.preferencias}">Preferencias</div>
+            </div>
+        </div>
+
+        <h3>Historial de Reservas</h3>
+        <p style="color: #8b8b9e; margin-bottom: 20px;">Listado de eventos en los que el cliente ha reservado entradas.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>RESERVA ID</th>
+                    <th>EVENTO</th>
+                    <th>FECHA EVENTO</th>
+                    <th>ENTRADAS</th>
+                    <th>ESTADO</th>
+                    <th>FECHA RESERVA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="r : ${reservas}">
+                    <td th:text="'#R' + ${r.idReserva}"></td>
+                    <td>
+                        <strong th:text="${r.evento.nombre}">Nombre Evento</strong>
+                        <div style="font-size: 11px; color: #8b8b9e;" th:text="${r.evento.tipo}">Tipo</div>
+                    </td>
+                    <td th:text="${r.evento.fecha}">Fecha Evento</td>
+                    <td th:text="${r.cantidadEntradas}">0</td>
+                    <td>
+                        <span th:class="'badge ' + ${#strings.toLowerCase(r.estado)}" th:text="${r.estado}">Estado</span>
+                    </td>
+                    <td th:text="${r.fechaReserva}">Fecha Reserva</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(reservas)}">
+                    <td colspan="6" style="text-align: center; color: #8b8b9e; padding: 40px;">No se encontraron reservas para este cliente.</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>
